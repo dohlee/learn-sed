@@ -115,7 +115,207 @@ sed -f 'your_SED_script_file' -e 's/old_pattern/new_pattern/g' your_text_file.tx
 
 ## Addressing lines
 
-TODO
+You might want to manipulate not every lines of the text, but specific lines that you've selected. There are diverse ways in SED to select lines, which can be specified with **addresses** in SED commands. In this section, we'll deal with the text with line numbers for simplicity.
+
+```shell
+seq 10 > my_text.txt
+```
+
+The basic form of addressing lines in SED is as below:
+
+```shell
+[address1[,address2]]
+```
+
+where address1, address2 can be any of addressing modes explained below. 
+
+### Number addressing
+
+Simply you can address lines with their line numbers. The first address defines the starting line from which the commands will be executed, and the optional second address defines the last line. Note that both ends are inclusive, and every address is . The example below prints out the third, fourth, and fifth line of the file. For now, just focus on the addressing 3,5, not p which prints the current contents of the pattern buffer.
+
+```shell
+sed -n '3 p' my_text.txt  # try this command without -n option. what happens?
+```
+
+```shell
+3
+```
+
+```shell
+sed -n '3,5 p' my_text.txt
+```
+
+```shell
+3
+4
+5
+```
+
+Not only can you select consecutive lines, but also every n-th lines.
+
+```shell
+sed -n '1~2 p' my_text.txt  # print odd-numbered lines
+```
+
+```shell
+1
+3
+5
+7
+9
+```
+
+Address 0 cannot be used solely, however, it is allowed to specify stepwise range like below:
+
+```shell
+sed -n '0~3 p' my_text
+```
+
+```shell
+3
+6
+9
+```
+
+### Regular expression addressing
+
+Use regular expression to select matching lines.
+
+```shell
+sed -n '/1/ p' my_text.txt  # Regular expression addresses should be /regexp/ form
+```
+
+```shell
+1
+10
+```
+
+ When they are used to define the range, it goes a bit tricky. 
+
+```shell
+/regexp1/[,/regexp2/]
+```
+
+The first line containing the pattern that matches regexp1 will be the first line from which the execution of the commands starts. Then sed reads a line, executes commands, and repeat, until the line containing the pattern that matches regexp2. Get the feel of regular expression addressing with examples below:
+
+```shell
+sed -n '/2/,/5/ p' my_text.txt
+```
+
+```shell
+2
+3
+4
+5
+```
+
+```shell
+sed -n '/6/,/5/ p' my_text.txt  # it looks like an empty range, but...
+```
+
+```
+6
+7
+8
+9
+10
+```
+
+### Addressing the last line
+
+Simply select last line with special character '$'.
+
+```shell
+sed -n '$ p' my_text.txt
+```
+
+```shell
+10
+```
+
+You might be curious about how to select the last two lines...
+
+Unfortunately, there's no simple answer with pure SED. Go to [quizzes]() and solve tricky problems like this one!
+
+### Hybrid addressing
+
+Feel free to mix number addressing and regular expression addressing.
+
+```shell
+sed -n '1,/5/ p' my_text.txt
+```
+
+```shell
+1
+2
+3
+4
+5
+```
+
+```shell
+sed -n '1,/1/ p' my_text.txt  # notice the difference with the example just below
+```
+
+```shell
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+```
+
+Here again, we can use address 0 when we use hybrid addressing.
+
+```shell
+sed -n '0,/1/ p' my_text.txt
+```
+
+```shell
+1
+```
+
+### Advanced addressing
+
+It is always good to know fancy ones.
+
+This addressing matches address1 and following N lines.
+
+```shell
+[address1,[+N]]
+```
+
+```shell
+sed -n '/2/,+3 p' my_text.txt
+```
+
+```shell
+2
+3
+4
+5
+```
+
+This addressing matches address1 and following lines until the line number is a multiple of N.
+
+```shell
+[address1,[~N]]
+```
+
+```shell
+sed -n '/6/,~4 p' my_text.txt
+```
+
+```shell
+6
+7
+8  # 8 is a multiple of 4 :)
+```
 
 ## Commands manipulating lines
 
