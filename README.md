@@ -90,17 +90,19 @@ Let's look at some must-know options.
 sed -n '' your_text_file.txt  # no output
 ```
 
-**-e <command>: Specify the next argument is SED command.** With this option, we can specify multiple SED commands within a single call of SED program. The example below ***s***ubstitutes *old_pattern* with *new_pattern*, **and** ***p***rints the resulting line which is inside the pattern buffer. Don't worry that you don't know those **s** and **p** command now. They'll be covered soon.
+**-e <command>: Specify the next argument is SED command.** With this option, we can specify multiple SED commands within a single call of SED program. The example below substitutes *old_pattern* with *new_pattern*, and prints the resulting line which is inside the pattern buffer. Don't worry that you don't know those **s** and **p** command now. They'll be covered soon.
 
 ```shell
 sed -n -e 's/old_pattern/new_pattern/g' -e 'p' your_text_file.txt
 ```
 
-**-i[SUFFIX]: Edit files in-place.** The resulting output of SED will replace the original file. When you specify SUFFIX, backup file will be generated. For the name of the backup file, SUFFIX will be appended to the name of original file. **WARNING: You should be careful to use this option without SUFFIX since it does not make any backup file.** The example below substitutes *old_pattern* with *new_pattern*, and replaces *your_text_file.txt* with substituted lines while saving *your_text_file.txt.bak* as a backup file.
+**-i[SUFFIX]: Edit files in-place.** The resulting output of SED will replace the original file. When you specify SUFFIX, backup file will be generated. For the name of the backup file, SUFFIX will be appended to the name of original file.  The example below substitutes *old_pattern* with *new_pattern*, and replaces *your_text_file.txt* with substituted lines while saving *your_text_file.txt.bak* as a backup file.
 
 ```shell
 sed -i.bak -n 's/old_pattern/new_pattern/g' your_text_file.txt
 ```
+
+- *WARNING: You should be careful to use this option without SUFFIX since it does not make any backup file.*
 
 **-f: Add the content of SED script file to the commands to be executed.** Note that you can use **-e** and **-f** option together. Just keep in mind that SED commands are processed in order they specified. Thus, in the second example below, the commands in script file will be invoked first, then the inline command will be invoked.
 
