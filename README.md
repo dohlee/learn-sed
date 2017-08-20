@@ -53,8 +53,6 @@ You should be acquainted with the workflow of SED in order to write your SED cod
 
 
 
-
-
 ## Basic syntax 
 
 You can use SED in either of two ways; using **inline commands** or **SED script file**. 
@@ -64,10 +62,12 @@ The syntax is as follows:
 ```shell
 sed [-n] [-e] 'inline commands'  # use inline commands
 
-sed [-n] -f 'SED script file'    # use SED script file
+sed [-n] -f 'your_sed_script_file'    # use SED script file
 ```
 
-You can supply text which you want to manipulate to SED in various ways.
+(Just think of SED script file as a list of SED commands.)
+
+Supply text which you want to manipulate to SED in various ways.
 
 ```shell
 echo 'your_text_here' | sed 'commands'  # use pipe
@@ -82,7 +82,34 @@ type_your_text_here
 
 ## Options
 
-TODO
+Let's look at some must-know options.
+
+**-n: No auto-print.** By default, the content of the pattern buffer is printed before fetching new line from the text. **-n** option prevents this default printing of pattern buffer unless the explicit print command is provided. Thus, the example below does not show any output.
+
+```shell
+sed -n '' your_text_file.txt  # no output
+```
+
+**-e <command>: Specify the next argument is SED command.** With this option, we can specify multiple SED commands within a single call of SED program. The example below ***s***ubstitutes *old_pattern* with *new_pattern*, **and** ***p***rints the resulting line which is inside the pattern buffer. Don't worry that you don't know those **s** and **p** command now. They'll be covered soon.
+
+```shell
+sed -n -e 's/old_pattern/new_pattern/g' -e 'p' your_text_file.txt
+```
+
+**-i[SUFFIX]: Edit files in-place.** The resulting output of SED will replace the original file. When you specify SUFFIX, backup file will be generated. For the name of the backup file, SUFFIX will be appended to the name of original file. **WARNING: You should be careful to use this option without SUFFIX since it does not make any backup file.** The example below substitutes *old_pattern* with *new_pattern*, and replaces *your_text_file.txt* with substituted lines while saving *your_text_file.txt.bak* as a backup file.
+
+```shell
+sed -i.bak -n 's/old_pattern/new_pattern/g' your_text_file.txt
+```
+
+**-f: Add the content of SED script file to the commands to be executed.** Note that you can use **-e** and **-f** option together. Just keep in mind that SED commands are processed in order they specified. Thus, in the second example below, the commands in script file will be invoked first, then the inline command will be invoked.
+
+```shell
+sed -f 'your_SED_script_file' your_text_file.txt
+
+# you can do this, too
+sed -f 'your_SED_script_file' -e 's/old_pattern/new_pattern/g' your_text_file.txt
+```
 
 ## Addressing lines
 
