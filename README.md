@@ -115,7 +115,7 @@ sed -f 'your_SED_script_file' -e 's/old_pattern/new_pattern/g' your_text_file.tx
 
 ## Addressing lines
 
-You might want to manipulate not every lines of the text, but specific lines that you've selected. There are diverse ways in SED to select lines, which can be specified with **addresses** in SED commands. In this section, we'll deal with the text with line numbers for simplicity.
+You might want to manipulate not every lines of the text, but specific lines that you've selected. There are diverse ways in SED to select lines, which can be specified with **addresses** in SED commands. In this section, we'll deal with the text with line numbers for simplicity's sake.
 
 ```shell
 seq 10 > my_text.txt
@@ -270,7 +270,7 @@ sed -n '1,/1/ p' my_text.txt  # notice the difference with the example just belo
 10
 ```
 
-Here again, we can use address 0 when we use hybrid addressing.
+Here again, we can use address 0 when we use hybrid addressing (this is for GNU sed).
 
 ```shell
 sed -n '0,/1/ p' my_text.txt
@@ -280,7 +280,7 @@ sed -n '0,/1/ p' my_text.txt
 1
 ```
 
-### Advanced addressing
+### Advanced addressing (for GNU sed)
 
 It is always good to know fancy ones.
 
