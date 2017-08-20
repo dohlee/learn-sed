@@ -57,7 +57,28 @@ You should be acquainted with the workflow of SED in order to write your SED cod
 
 ## Basic syntax 
 
-TODO
+You can use SED in either of two ways; using **inline commands** or **SED script file**. 
+
+The syntax is as follows:
+
+```shell
+sed [-n] [-e] 'inline commands'  # use inline commands
+
+sed [-n] -f 'SED script file'    # use SED script file
+```
+
+You can supply text which you want to manipulate to SED in various ways.
+
+```shell
+echo 'your_text_here' | sed 'commands'  # use pipe
+
+sed 'commands' your_text_file.txt       # use text file
+
+sed 'commands'                          # use SED session
+type_your_text_here
+...and so on
+(Ctrl-D to exit)
+```
 
 ## Options
 
