@@ -339,7 +339,7 @@ We've already seen lots of p commands in examples above. As you can guess, it pr
 [address1,[address2]] p
 ```
 
-Do you remember **-n** option? By default, SED prints the content of the pattern buffer before it fetches a new line from text. **-n** option would prevent this auto-printing of pattern buffer. Then, can you guess the output of the following command?
+Do you remember **-n** option? By default, SED prints the content of the pattern buffer before it fetches a new line from text. **-n** option prevents this auto-printing of pattern buffer. Then, can you guess the output of the following command without -n option?
 
 ```shell
 sed 'p' my_text.txt
