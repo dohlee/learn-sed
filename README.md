@@ -396,7 +396,44 @@ When p command is used with other commands, it is often hard to expect the outpu
 
 ### Delete line (d)
 
-TODO
+```shell
+[address1[,address2]] d
+```
+
+Delete line command deletes the data in the pattern buffer. 
+
+```shell
+sed '2,5 d' my_text.txt
+```
+
+```shell
+One apple
+Six frog
+Seven gorilla
+```
+
+To understand the example above, again, you should know the principle of SED's auto-print. Because we deleted some lines from the pattern buffer before they are auto-printed, they don't appear in output. 
+
+How about this one? Can you guess why there isn't any output?
+
+```shell
+sed -n '2,5 d' my_text.txt
+```
+
+```shell
+(No output)
+```
+
+As usual, any kinds of addresses can be specified to select lines to be deleted.
+
+```shell
+sed '/banana/,/frog/ d' my_text.txt
+```
+
+```shell
+One apple
+Seven gorilla
+```
 
 ### Quit (q)
 
