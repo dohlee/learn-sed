@@ -319,9 +319,80 @@ sed -n '/6/,~4 p' my_text.txt
 
 ## Commands manipulating lines
 
+Let's assume my_text.txt file is as below:
+
+```Shell
+One apple
+Two banana
+Three cat
+Four dog
+Five elephant
+Six frog
+Seven gorilla
+```
+
 ### Print line (p)
 
-TODO
+We've already seen lots of p commands in examples above. As you can guess, it prints the content of the pattern buffer. Basic syntax of p command is as below:
+
+```shell
+[address1,[address2]] p
+```
+
+Do you remember **-n** option? By default, SED prints the content of the pattern buffer before it fetches a new line from text. **-n** option would prevent this auto-printing of pattern buffer. Then, can you guess the output of the following command?
+
+```shell
+sed 'p' my_text.txt
+```
+
+```shell
+One apple
+One apple
+Two banana
+Two banana
+Three cat
+Three cat
+Four dog
+Four dog
+Five elephant
+Five elephant
+Six frog
+Six frog
+Seven gorilla
+Seven gorilla
+```
+
+Each line is printed twice, because of SED's default auto-print and p command.
+
+Usually we want this, each line printed once.
+
+```shell
+sed -n 'p' my_text.txt  # no auto-print
+```
+
+```shell
+One apple
+Two banana
+Three cat
+Four dog
+Five elephant
+Six frog
+Seven gorilla
+```
+
+Print specific lines with addressing.
+
+```shell
+sed -n '2,4 p' my_text.txt
+```
+
+```shell
+Two banana
+Three cat
+Four dog
+```
+
+When p command is used with other commands, it is often hard to expect the output. Just remember: p command prints the current data stored in the pattern buffer.
 
 ### Delete line (d)
 
