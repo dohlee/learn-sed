@@ -437,7 +437,87 @@ Seven gorilla
 
 ### Quit (q)
 
-TODO
+```shell
+[address] q [value]
+```
+
+Quit command makes SED stop processing lines when SED fetches the line specified by the address. Please note that even though SED doesn't fetch the next line any more, it still auto-prints the 'last' line. 
+
+```shell
+sed '3 q' my_text.txt
+```
+
+```shell
+One apple
+Two banana
+Three cat  # note that this line is printed
+```
+
+Go through these examples below:
+
+We can explain this as 'print(1) - print(2) - print(3) - quit(3)'
+
+```shell
+sed -n -e 'p' -e '3 q' my_text.txt
+```
+
+```shell
+One apple
+Two banana
+Three cat
+```
+
+'print(1) - print(2) - quit(3)' for this one.
+
+```shell
+sed -n -e '3 q' -e 'p' my_text.txt
+```
+
+```shell
+One apple
+Two banana
+```
+
+'print(1) - auto-print(1) - print(2) - auto-print(2) - print(3) - auto-print(3)' here.
+
+```shell
+sed -e 'p' -e '3 q' my_text.txt
+```
+
+```
+One apple
+One apple
+Two banana
+Two banana
+Three cat
+Three cat
+```
+
+This one is tricky, 'print(1) - auto-print(1) - print(2) - auto-print(2) - quit(3) **- auto-print(3)**'
+
+```shell
+sed -e '3 q' -e 'p' my_text.txt
+```
+
+```shell
+One apple
+One apple
+Two banana
+Two banana
+Three cat  # even though there's '3 q' command, this line is printed because of auto-print
+```
+
+You can specify exit status (or return status) with [value]
+
+```shell
+sed '2 q 17' my_text.txt; echo $?  # 'echo $?' echoes the exit status of the last command executed
+```
+
+```
+One apple
+Two banana
+17
+```
 
 ### Substitute (s)
 
