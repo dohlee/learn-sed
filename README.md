@@ -521,7 +521,103 @@ Two banana
 
 ### Substitute (s)
 
-TODO
+```shell
+[address1[,address2]] s/old_pattern/new_pattern/[flags] 
+```
+
+Substitute command is one of the most powerful features of SED. Substitute command looks for *old_pattern* within the line stored in the pattern buffer, replaces *old_pattern* with *new_pattern* if pattern match succeeds. Note that all of this string manipulation occurs in the pattern buffer, so auto-printing of lines reflects the modifications.
+
+```shell
+sed 's/a/e/' my_text.txt
+```
+
+```shell
+One epple
+Two benana
+Three cet
+Four dog
+Five elephent
+Six frog
+Seven gorille
+```
+
+#### Global flag (g): Find every matching pattern in each line
+
+You might notice within a single line, executing s command only replaces the first matching pattern(*a*'s) with *e*'s. Let SED looks for the pattern match **g**lobally within each line with **g** flag.
+
+```shell
+sed 's/a/e/g' my_text.txt
+```
+
+```
+One epple
+Two benene
+Three cet
+Four dog
+Five elephent
+Six frog
+Seven gorille
+```
+
+#### Print flag (p): Print if modified
+
+The following example shows that if we turn off auto-print, we have to specify explicit print option to print modified result.
+
+```shell
+sed -n 's/a/e/' my_text.txt
+```
+
+```
+(No output)
+```
+
+Print flag, p, only prints the content of the pattern buffer if pattern match occurs. Thus, the fourth and sixth lines (which contain no a's) are not printed in the following example:
+
+```shell
+sed -n 's/a/e/p' my_text.txt
+```
+
+```shell
+One epple
+Two benana
+Three cet
+Five elephent
+Seven gorille
+```
+
+#### Case-insensitive flag (i): Be case-insensitive when finding pattern matches
+
+Of course you can match case-insensitive patterns by tweaking your regular expressions a little, however, SED provides a useful case-insensitive flag, i.
+
+```shell
+sed 's/o/*/i' my_text.txt
+```
+
+```shell
+*ne apple  # 'O' matches the pattern 'o' here
+Tw* banana
+Three cat
+F*ur dog  # the second 'o' does not matches here...because pattern matching is not global
+Five elephant
+Six fr*g
+Seven g*rilla
+```
+
+#### Flags can be used together
+
+You can use multiple flags at once.
+
+```shell
+sed -n 's/o/*/gpi' my_text.txt
+```
+
+```shell
+*ne apple
+Tw* banana
+F*ur d*g
+Six fr*g
+Seven g*rilla
+```
 
 ### Append (a)
 
