@@ -528,17 +528,17 @@ Two banana
 Substitute command is one of the most powerful features of SED. Substitute command looks for *old_pattern* within the line stored in the pattern buffer, replaces *old_pattern* with *new_pattern* if pattern match succeeds. Note that all of this string manipulation occurs in the pattern buffer, so auto-printing of lines reflects the modifications. 
 
 ```shell
-sed 's/a/e/' my_text.txt
+sed 's/a/*/' my_text.txt
 ```
 
 ```shell
-One epple
-Two benana
-Three cet
+One *pple
+Two b*nana
+Three c*t
 Four dog
-Five elephent
+Five eleph*nt
 Six frog
-Seven gorille
+Seven gorill*
 ```
 
 #### Global flag (g): Find every matching pattern in each line
@@ -546,17 +546,17 @@ Seven gorille
 You might notice within a single line, executing s command only replaces the first matching pattern(*a*'s) with *e*'s. Let SED looks for the pattern match **g**lobally within each line with **g** flag.
 
 ```shell
-sed 's/a/e/g' my_text.txt
+sed 's/a/*/g' my_text.txt
 ```
 
 ```
-One epple
-Two benene
-Three cet
+One *pple
+Two b*n*n*
+Three c*t
 Four dog
-Five elephent
+Five eleph*nt
 Six frog
-Seven gorille
+Seven gorill*
 ```
 
 #### Print flag (p): Print if modified
@@ -564,7 +564,7 @@ Seven gorille
 The following example shows that if we turn off auto-print, we have to specify explicit print option to print modified result.
 
 ```shell
-sed -n 's/a/e/' my_text.txt
+sed -n 's/a/*/' my_text.txt
 ```
 
 ```
@@ -574,15 +574,15 @@ sed -n 's/a/e/' my_text.txt
 Print flag, p, only prints the content of the pattern buffer if pattern match occurs. Thus, the fourth and sixth lines (which contain no a's) are not printed in the following example:
 
 ```shell
-sed -n 's/a/e/p' my_text.txt
+sed -n 's/a/*/p' my_text.txt
 ```
 
 ```shell
-One epple
-Two benana
-Three cet
-Five elephent
-Seven gorille
+One *pple
+Two b*nana
+Three c*t
+Five eleph*nt
+Seven gorill*
 ```
 
 #### Case-insensitive flag (i): Be case-insensitive when finding pattern matches
@@ -645,7 +645,7 @@ As you see, we often use forward slash '/' as a delimiter of the substitute comm
 echo '/home/dohlee/learn-sed' > path.txt
 ```
 
-Without modifying delimiters, we should escape all forward slashes not to make them parsed as delimiters. Then we might write our sed command as below:
+To achieve this without modifying delimiters, we should escape all forward slashes not to make them parsed as delimiters. Then we write our sed command as below:
 
 ```shell
 sed 's/\/home\/dohlee\/learn-sed/\/new_home\/new_dohlee\/learn-sed/' path.txt
@@ -713,7 +713,7 @@ gorilla Seven
 
 The regular expression above can be explained as below:
 
-Basically all of the characters have special meanings, so they are escaped by backslash '\'. Without backslash, the command can be rewritten like this.
+Basically all of the characters have special meanings, so they are escaped by backslash '\'. Just for the simple illustration of the regular expression, we will not think of backslashes from now on. Without backslash, the command can be rewritten like this. (Note that this command is not valid.)
 
 ```shell
 sed 's|(w+) (w+)|\2 \1|' my_text.txt
