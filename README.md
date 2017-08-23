@@ -525,7 +525,7 @@ Two banana
 [address1[,address2]] s/old_pattern/new_pattern/[flags] 
 ```
 
-Substitute command is one of the most powerful features of SED. Substitute command looks for *old_pattern* within the line stored in the pattern buffer, replaces *old_pattern* with *new_pattern* if pattern match succeeds. Note that all of this string manipulation occurs in the pattern buffer, so auto-printing of lines reflects the modifications.
+Substitute command is one of the most powerful features of SED. Substitute command looks for *old_pattern* within the line stored in the pattern buffer, replaces *old_pattern* with *new_pattern* if pattern match succeeds. Note that all of this string manipulation occurs in the pattern buffer, so auto-printing of lines reflects the modifications. 
 
 ```shell
 sed 's/a/e/' my_text.txt
@@ -618,6 +618,108 @@ F*ur d*g
 Six fr*g
 Seven g*rilla
 ```
+
+#### Substitute with addressing
+
+You can make SED substitute text only if the pattern match occurs. Let's replace e's with *'s in the line which contains 'gorilla'.
+
+```shell
+sed '/gorilla/ s/e/*/g' my_text.txt
+```
+
+```shell
+One apple
+Two banana
+Three cat
+Four dog
+Five elephant
+Six frog
+S*v*n gorilla
+```
+
+#### Delimiters
+
+As you see, we often use forward slash '/' as a delimiter of the substitute command. In fact, we can use any character as a delimiter unless it messes up the syntax. This properties of sed is useful when we are dealing with directory paths. Assume we want to replace the path '/home/dohlee/learn-sed' with the path '/new_home/new_dohlee/learn-sed'.
+
+```shell
+echo '/home/dohlee/learn-sed' > path.txt
+```
+
+Without modifying delimiters, we should escape all forward slashes not to make them parsed as delimiters. Then we might write our sed command as below:
+
+```shell
+sed 's/\/home\/dohlee\/learn-sed/\/new_home\/new_dohlee\/learn-sed/' path.txt
+```
+
+```shell
+/new_home/new_dohlee/learn-sed
+```
+
+It is a bit confusing. It becomes more and more complicated when we want to replace the more complicated path. When we use '|' as a delimiter, forward slashes don't have to be escaped, which makes our SED command more readable.
+
+```shell
+sed 's|/home/dohlee/learn-sed|/new_home/new_dohlee/learn-sed|' path.txt
+```
+
+```shell
+/new_home/new_dohlee/learn-sed
+```
+
+Even 'x' can be used as a delimiter (since it is not used in the patterns), but don't abuse like this for your clean and readable code! :)
+
+```shell
+sed 'sx/home/dohlee/learn-sedx/new_home/new_dohlee/learn-sedx' path.txt
+```
+
+```shell
+/new_home/new_dohlee/learn-sed
+```
+
+#### Indexing matched patterns
+
+You can substitute the second occurence of the pattern only in each line by specifying *'2'* flag. Of course you can extend it to substitute the *n*th occurence of the pattern in each line.
+
+```shell
+sed 's/e/*/2' my_text.txt  # substitute the second 'e' in each line
+```
+
+```shell
+One appl*
+Two banana
+Thre* cat
+Four dog
+Five *lephant
+Six frog
+Sev*n gorilla
+```
+
+Think how we can switch the numbers (One, Two, ...) with the ABC words (apple, banana, ...). 
+
+You might notice that we should be able to know how to access matched patterns. We can make this by capturing the matched pattern with parentheses '()' in *old_pattern*, and accessing each of them with '\1', '\2', '\3, ...' in *new_pattern*.
+
+```shell
+sed 's|\(\w\+\) \(\w\+\)|\2 \1|' my_text.txt
+```
+
+```shell
+apple One
+banana Two
+cat Three
+dog Four
+elephant Five
+frog Six
+gorilla Seven
+```
+
+The regular expression above can be explained as below:
+
+Basically all of the characters have special meanings, so they are escaped by backslash '\'. Without backslash, the command can be rewritten like this.
+
+```shell
+sed 's|(w+) (w+)|\2 \1|' my_text.txt
+```
+
+Escaped 'w' is a metacharacter which matches a single word character (alphabet, digits, and underscore). '+' means that the preceeding character appears one or more times consecutively. Thus the regular expression (w+) captures a single word. The whole expression '(w+) (w+)' captures two words separated by a single space. Captured words are accessed by '\1', and '\2', respectively. Finally, by writing *new_pattern* like '\2 \1', the two words are successfully switched.
 
 ### Append (a)
 
