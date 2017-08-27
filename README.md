@@ -549,7 +549,7 @@ You might notice within a single line, executing s command only replaces the fir
 sed 's/a/*/g' my_text.txt
 ```
 
-```
+```shell
 One *pple
 Two b*n*n*
 Three c*t
@@ -723,7 +723,43 @@ Escaped 'w' is a metacharacter which matches a single word character (alphabet, 
 
 ### Append (a)
 
-TODO
+```shell
+[address] a append_text
+```
+
+You can append a text after the lines specified by the address. The command below appends a line 'Eight happy' after the fourth line. 
+
+```shell
+sed '/Four/ a Eight happy' my_text.txt
+```
+
+```shell
+One apple
+Two banana
+Three cat
+Four dog
+Eight happy
+Five elephant
+Six frog
+Seven gorilla
+```
+
+By addressing the last line with '$', you can append a line at the end of the file.
+
+```shell
+sed '$ a Eight happy' my_text.txt
+```
+
+```shell
+One apple
+Two banana
+Three cat
+Four dog
+Five elephant
+Six frog
+Seven gorilla
+Eight happy
+```
 
 ### Translate (y)
 
