@@ -724,7 +724,7 @@ Escaped 'w' is a metacharacter which matches a single word character (alphabet, 
 ### Append (a)
 
 ```shell
-[address] a append_text
+[address] a text-to-append
 ```
 
 You can append a text after the lines specified by the address. The command below appends a line 'Eight happy' after the fourth line. 
@@ -763,7 +763,43 @@ Eight happy
 
 ### Translate (y)
 
-TODO
+```shell
+[address1[,address2]] y/from-list/to-list/
+```
+
+The characters in *from-list* is translated into *to-list*. The length of *from-list* and *to-list* should be equal, so that the command means intuitive one-to-one mapping of characters.
+
+The command below converts 'b' into 8, 'e' into 3, 'g' into 9, 'i' into 1, 's' into 5, 't' into 7, and 'o' into 0.
+
+```shell
+sed 'y/begisto/8391570/' my_text.txt
+```
+
+```shell
+On3 appl3
+Tw0 8anana
+Thr33 ca7
+F0ur d09
+F1v3 3l3phan7
+S1x fr09
+S3v3n 90r1lla
+```
+
+Although it is not a usual case, it is worth knowing that when the mapping is specified as one-to-many mapping, only the first mapping will be applied.
+
+```shell
+sed 'y/aaaaa/12345' my_text.txt
+```
+
+```shell
+One 1pple
+Two b1n1n1
+Three c1t
+Four dog
+Five eleph1nt
+Six frog
+Seven gorill1
+```
 
 ### Show line numbers (=)
 
