@@ -803,7 +803,62 @@ Seven gorill1
 
 ### Show line numbers (=)
 
-TODO
+```shell
+[address1[,address2]] =
+```
+
+One useful feature of sed is that it automatically counts the line number while processing the text file. The line number can be printed by '=' command. Note that we don't suppress auto-printing option in the example below, hence the lines are printed also.
+
+```shell
+sed '=' my_text.txt
+```
+
+```shell
+1
+One apple
+2
+Two banana
+3
+Three cat
+4
+Four dog
+5
+Five elephant
+6
+Six frog
+7
+Seven gorilla
+```
+
+Only the number of lines which have letter 'o' will be printed in the command below:
+
+```shell
+sed '/o/ =' my_text.txt
+```
+
+```shell
+One apple
+2
+Two banana
+Three cat
+4
+Four dog
+Five elephant
+6
+Six frog
+7
+Seven gorilla
+```
+
+Guess what this command is doing:
+
+```shell
+sed -n '$ =' my_text.txt
+```
+
+```shell
+7  # prints the number of lines in the file!
+```
 
 ## Commands manipulating buffers
 
