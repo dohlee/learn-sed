@@ -280,6 +280,26 @@ sed -n '0,/1/ p' my_text.txt
 1
 ```
 
+###Negation
+
+By appending '!' to address, we can address except that line.
+
+```shell
+sed -n '$! p' my_text.txt
+```
+
+```shell
+1
+2
+3
+4
+5
+6
+7
+8
+9
+```
+
 ### Advanced addressing (for GNU sed)
 
 It is always good to know fancy ones.
