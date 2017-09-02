@@ -864,11 +864,120 @@ sed -n '$ =' my_text.txt
 
 ### Replace pattern buffer (n)
 
-TODO
+```shell
+[address[,address2]] n
+```
+
+This command is tricky. So try to understand it carefully. 'n' command basically clears the pattern buffer and fetches the next line. If the suppress auto-print option (-n) is not specified, the content of the pattern buffer is printed before it is cleared.
+
+```shell
+sed 'n' my_text.txt
+```
+
+```shell
+One apple
+Two banana
+Three cat
+Four dog
+Five elephant
+Six frog
+Seven gorilla
+```
+
+However, if you suppressed auto-print, the content of the pattern buffer will not be printed.
+
+```shell
+sed -n 'n' my_text.txt
+```
+
+```shell
+(No output)
+```
+
+Here follows the trickiest part. So far, the commands that you gave have been applied for every line. However, when 'n' commands are included, the commands following the 'n' command will be executed on the next line the pattern buffer is replaced by the next line. The command below prints every second line.
+
+```shell
+sed -n 'n;p' my_text.txt
+```
+
+```shell
+Two banana
+Four dog
+Six frog
+```
+
+In other words, 'n' commands allows more than one lines to be executed in a single sed cycle.
+
+### Append the next line to pattern buffer (N)
+
+```shell
+[address1[,address2]] N
+```
+
+While 'n' command clears the current pattern buffer and fetches the next line, 'N' command appends the next line to the current pattern buffer. Note that before fetching the next line, newline character is added to the pattern buffer.
+
+```shell
+sed '=;N' my_text.txt
+```
+
+```shell
+1
+One apple
+Two banana
+3
+Three cat
+Four dog
+5
+Five elephant
+Six frog
+7
+Seven gorilla
+```
+
+When there is no line to fetch, SED exits immediately.
 
 ### Exchange pattern buffer and hold buffer (x)
 
-TODO
+The hold buffer is internal SED buffer that is preserved through SED cycles. 'x' command is one of the many ways to fill the hold buffer. The following command prints only the even numbered lines. 
+
+```shell
+sed -n 'x;n;p' my_text.txt
+```
+
+```shell
+Two banana
+Four dog
+Six frog
+```
+
+How can we print only the odd numbered lines with just a slight modification?
+
+```shell
+sed -n 'x;n;x;p' my_text.txt
+```
+
+```shell
+One apple
+Three cat
+Five elephant
+```
+
+In the above command, we just exchange contents of the pattern buffer and the hold buffer before printing. Note that it doesn't print seventh line because 'n' command cannot fetch the next line, so SED terminates before printing.
+
+Without the hold buffer, SED can only produce output which preserves original order. Now we will start using the hold buffer, so we can modify the order of the file. The command below exchanges adjacent lines. 
+
+```shell
+sed 'x;n;p;x;p' my_text.txt
+```
+
+```shell
+Two banana
+One apple
+Four dog
+Three cat
+Six frog
+Five elephant
+```
 
 ### Copy contents of pattern buffer to hold buffer (h)
 
