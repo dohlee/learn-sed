@@ -1,35 +1,27 @@
 ## Contents
 
-[What is SED?](#what-is-sed)
-
-[SED cycle](#sed-cycle)
-
-[Basic syntax](#basic-syntax)
-
-[Options](#options)
-
-[Addressing lines](#addressing-lines)
-
-[Commands manipulating lines](#commands-manipulating-lines)
-
-- [Print line (p)](#print-line-p)
-- [Delete line (d)](#delete-line-d)
-- [Quit (q)](#quit-q)
-- [Substitute (s)](#substitute-s)
-- [Append (a)](#append-a)
-- [Translate (y)](#translate-y)
-- [Show line numbers (=)](#show-line-numbers-)
-
-[Commands manipulating buffers](#commands-manipulating-buffers)
-
-- [Replace pattern buffer (n)](#replace-pattern-buffer-n)
-- [Exchange pattern buffer and hold buffer (x)](#exchange-pattern-buffer-and-hold-buffer-x)
-- [Copy contents of pattern buffer to hold buffer (h)](#copy-contents-of-pattern-buffer-to-hold-buffer-h)
-- [Append contents of pattern buffer to hold buffer (H)](#append-contents-of-pattern-buffer-to-hold-buffer-h)
-- [Copy contents of hold buffer to pattern buffer (g)](#copy-contents-of-hold-buffer-to-pattern-buffer-g)
-- [Append contents of hold buffer to pattern buffer (G)](#append-contents-of-hold-buffer-to-pattern-buffer-g)
-
-[Regular expressions](#regular-expressions)
+- [What is SED?](#what-is-sed)
+- [SED cycle](#sed-cycle)
+- [Basic syntax](#basic-syntax)
+- [Options](#options)
+- [Addressing lines](#addressing-lines)
+- [Commands manipulating lines](#commands-manipulating-lines)
+  - [Print line (p)](#print-line-p)
+  - [Delete line (d)](#delete-line-d)
+  - [Quit (q)](#quit-q)
+  - [Substitute (s)](#substitute-s)
+  - [Append (a)](#append-a)
+  - [Translate (y)](#translate-y)
+  - [Show line numbers (=)](#show-line-numbers-)
+- [Commands manipulating buffers](#commands-manipulating-buffers)
+  - [Replace pattern buffer (n)](#replace-pattern-buffer-n)
+  - [Append the next line to pattern buffer (N)](#append-the-next-line-to-pattern-buffer-n)
+  - [Exchange pattern buffer and hold buffer (x)](#exchange-pattern-buffer-and-hold-buffer-x)
+  - [Copy contents of pattern buffer to hold buffer (h)](#copy-contents-of-pattern-buffer-to-hold-buffer-h)
+  - [Append contents of pattern buffer to hold buffer (H)](#append-contents-of-pattern-buffer-to-hold-buffer-h)
+  - [Copy contents of hold buffer to pattern buffer (g)](#copy-contents-of-hold-buffer-to-pattern-buffer-g)
+  - [Append contents of hold buffer to pattern buffer (G)](#append-contents-of-hold-buffer-to-pattern-buffer-g)
+- [Regular expressions](#regular-expressions)
 
 
 
