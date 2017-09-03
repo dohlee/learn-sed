@@ -1004,7 +1004,7 @@ sed -n '/a/ {x;p;x}; h;' my_text.txt
 ```
 
 ```shell
-
+				# an empty line
 One apple
 Two banana
 Four dog
@@ -1042,11 +1042,11 @@ sed -n 'H; /t/ {g;p}' my_text.txt
 ```
 
 ```shell
-
+				# an empty line
 One apple
 Two banana
 Three cat
-
+				# an empty line
 One apple
 Two banana
 Three cat
