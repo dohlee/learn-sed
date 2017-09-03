@@ -984,7 +984,7 @@ Five elephant
 
 In the above command, we just exchange contents of the pattern buffer and the hold buffer before printing. Note that it doesn't print seventh line because 'n' command cannot fetch the next line, so SED terminates before printing.
 
-Without the hold buffer, SED can only produce output which preserves original order. Now we will start using the hold buffer, so we can modify the order of the file. The command below exchanges adjacent lines. 
+Without the hold buffer, SED can only produce output which preserves the original order. Now we will start using the hold buffer, so we can modify the order of the file. The command below exchanges the order of adjacent lines. 
 
 ```shell
 sed 'x;n;p;x;p' my_text.txt
@@ -1039,13 +1039,58 @@ sed -n '/a/ H; $ {x;s/\n/|/g;p}' my_text.txt
 
 ### Copy contents of hold buffer to pattern buffer (g)
 
-TODO
+```shell
+[address1[,address2]] g
+```
+
+So far, we had to use exchange command, 'x', to get data from the hold buffer to the pattern buffer. However, when you don't mind losing current data of the pattern buffer and just want to get the contents of the hold buffer while preserving the hold buffer, it might be troublesome with exchange command. Because you have to exchange the content with 'x', print it with 'p', and restore the hold buffer with 'x'. In this case, copying the hold buffer to the pattern buffer will be convenient. 'g' command does this.
+
+```shell
+sed -n 'H; /t/ {g;p}' my_text.txt
+```
+
+```shell
+
+One apple
+Two banana
+Three cat
+
+One apple
+Two banana
+Three cat
+Four dog
+Five elephant
+```
+
+Executing the command above prints the contents of the hold buffer when SED meets line containing 't'. You might notice that the contents are printed in accumulative way.
 
 ### Append contents of hold buffer to pattern buffer (G)
 
-TODO
+```shell
+[address1[,address2]] G
+```
 
+This command is just the reverse command of 'H' command. It appends the contents of the hold buffer to the pattern buffer.  Can you predict the output of the following command?
 
+```shell
+sed -n '1! G; x; $ {g;p}' my_text.txt
+```
+
+```shell
+Seven gorilla
+Six frog
+Five elephant
+Four dog
+Three cat
+Two banana
+One apple
+```
+
+It reverses the order of lines in the file! Let me explain the command step by step.
+
+1. '1! G' command makes SED append the contents of the hold buffer to pattern buffer at every line except first line.
+2. Then SED executes 'x' command to exchange the contents of the hold buffer and the pattern buffer. Consequently, after executing every 'x' command, the reverse-ordered lines will be stored in hold buffer. 
+3. Finally, SED executes '$ {g;p}' command only at the last line of the file. SED copies the hold buffer to the pattern buffer, and prints it. The text is printed in reverse order.
 
 ## Regular expressions
 
