@@ -1001,11 +1001,41 @@ Five elephant
 
 ### Copy contents of pattern buffer to hold buffer (h)
 
-TODO
+```shell
+[address1[,address2]] h
+```
+
+While 'x' command exchanges the content of the pattern buffer and the hold buffer,  'h' command copies the content of the pattern buffer to the hold buffer. This command is useful when you want to get the line *before* the line which satisfies the condition. For example, if you want to print lines just before the lines containing 'a'.
+
+```shell
+sed -n '/a/ {x;p;x}; h;' my_text.txt
+```
+
+```shell
+
+One apple
+Two banana
+Four dog
+Six frog
+```
+
+Since the pattern buffer is empty at first, only newline character is printed for the first line. 
 
 ### Append contents of pattern buffer to hold buffer (H) 
 
-TODO
+```shell
+[address1[,address2]] H
+```
+
+'H' command appends data from the pattern buffer to the hold buffer. The contents of the hold buffer will be separated by newline character. The following command saves the lines containing 'a' to the hold buffer, and finally prints those lines which are separated by the pipe character.
+
+```shell
+sed -n '/a/ H; $ {x;s/\n/|/g;p}' my_text.txt
+```
+
+```shell
+|One apple|Two banana|Three cat|Five elephant|Seven gorilla
+```
 
 ### Copy contents of hold buffer to pattern buffer (g)
 
