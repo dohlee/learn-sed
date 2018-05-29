@@ -555,7 +555,7 @@ Seven gorill*
 
 #### Global flag (g): Find every matching pattern in each line
 
-You might notice within a single line, executing s command only replaces the first matching pattern(*a*'s) with *e*'s. Let SED looks for the pattern match **g**lobally within each line with **g** flag.
+You might notice within a single line, executing s command only replaces the first matching pattern(*a*'s) with *e*'s. Let SED look for the pattern **g**lobally within each line with **g** flag.
 
 ```shell
 sed 's/a/*/g' my_text.txt
@@ -609,7 +609,7 @@ sed 's/o/*/i' my_text.txt
 *ne apple  # 'O' matches the pattern 'o' here
 Tw* banana
 Three cat
-F*ur dog  # the second 'o' does not matches here...because pattern matching is not global
+F*ur dog  # the second 'o' does not match here...because pattern matching is not global
 Five elephant
 Six fr*g
 Seven g*rilla
